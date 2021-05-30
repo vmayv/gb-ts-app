@@ -39,14 +39,21 @@ namespace Timesheets.Domain.Implementation
             return employee.Id;
         }
 
-        public Task Update(Guid id, EmployeeRequest employeeRequest)
+        public async Task Update(Guid id, EmployeeRequest employeeRequest)
         {
-            throw new NotImplementedException();
+            var employee = new Employee()
+            {
+                Id = id,
+                IsDeleted = employeeRequest.IsDeleted,
+                UserId = employeeRequest.UserId
+            };
+            
+            await _employeeRepo.Update(employee);
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            await _employeeRepo.Delete(id);
         }
     }
 }

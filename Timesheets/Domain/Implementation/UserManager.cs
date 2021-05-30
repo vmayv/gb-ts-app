@@ -40,14 +40,20 @@ namespace Timesheets.Domain.Implementation
             return user.Id;
         }
 
-        public Task Update(Guid id, UserRequest userRequest)
+        public async Task Update(Guid id, UserRequest userRequest)
         {
-            throw new NotImplementedException();
+            var user = new User()
+            {
+                Id = id,
+                Username = userRequest.Username
+            };
+            
+            await _userRepo.Update(user);
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            await _userRepo.Delete(id);
         }
     }
 }

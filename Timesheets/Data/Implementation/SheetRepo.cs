@@ -10,27 +10,27 @@ namespace Timesheets.Data.Implementation
 {
     public class SheetRepo: ISheetRepo
     {
-        private readonly TimesheetDbContext _context;
+        private readonly TimesheetDbContext _timesheetDbContext;
 
-        public SheetRepo(TimesheetDbContext context)
+        public SheetRepo(TimesheetDbContext Dbcontext)
         {
-            _context = context;
+            _timesheetDbContext = Dbcontext;
         }
 
         public async Task<Sheet> GetItem(Guid id)
         {
-            var result = await _context.Sheets.FindAsync(id);
+            var result = await _timesheetDbContext.Sheets.FindAsync(id);
 
             return result;
         }
 
         public async Task<IEnumerable<Sheet>> GetItems()
         {
-            var result =  await _context.Sheets.ToListAsync();
+            var result =  await _timesheetDbContext.Sheets.ToListAsync();
             var filteredResult = result.Where(x => x.Amount > 2);
 
 
-            var result2 = _context.Sheets.AsQueryable();
+            var result2 = _timesheetDbContext.Sheets.AsQueryable();
             filteredResult = result2.Where(x => x.Amount > 2);
 
             return filteredResult.AsEnumerable();
@@ -38,14 +38,19 @@ namespace Timesheets.Data.Implementation
 
         public async Task Add(Sheet item)
         {
-            await _context.Sheets.AddAsync(item);
-            await _context.SaveChangesAsync();
+            await _timesheetDbContext.Sheets.AddAsync(item);
+            await _timesheetDbContext.SaveChangesAsync();
         }
 
         public async Task Update(Sheet item)
         {
-            _context.Sheets.Update(item);
-            await _context.SaveChangesAsync();
+            _timesheetDbContext.Sheets.Update(item);
+            await _timesheetDbContext.SaveChangesAsync();
+        }
+
+        public Task Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

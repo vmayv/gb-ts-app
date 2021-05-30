@@ -35,7 +35,12 @@ namespace Timesheets.Data.Implementation
             _dbContext.Contracts.Update(item);
             await _dbContext.SaveChangesAsync();
         }
-        
+
+        public Task Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public async Task<bool?> CheckContractIsActive(Guid id)
         {
