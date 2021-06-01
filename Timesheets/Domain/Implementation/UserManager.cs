@@ -55,5 +55,18 @@ namespace Timesheets.Domain.Implementation
         {
             await _userRepo.Delete(id);
         }
+
+        public async Task<bool> CheckUserExist(Guid id)
+        {
+            var checkUser = await _userRepo.GetItem(id);
+            if (checkUser == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

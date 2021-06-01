@@ -13,5 +13,6 @@ namespace Timesheets.Domain.Interfaces
         Task<Guid> Create(UserRequest userRequest);
         Task Update(Guid id, UserRequest userRequest);
         Task Delete(Guid id);
+        Task<bool> CheckUserExist(Guid id);
     }
 }

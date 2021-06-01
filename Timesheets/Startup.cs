@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Timesheets.Data;
 using Timesheets.Data.Implementation;
@@ -37,9 +30,15 @@ namespace Timesheets
             options.UseNpgsql(Configuration.GetConnectionString("Postgres")));
             
             services.ConfigureDbContext(Configuration);
+            /*
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );*/
             
             services.AddScoped<ISheetRepo, SheetRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IContractManager, ContractManager>();
+            services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<ISheetManager, SheetManager>();
             services.AddScoped<IContractRepo, ContractRepo>();
 
