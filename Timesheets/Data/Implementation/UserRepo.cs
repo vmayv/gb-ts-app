@@ -8,46 +8,47 @@ using Timesheets.Models;
 
 namespace Timesheets.Data.Implementation
 {
-    public class ClientRepo: IClientRepo
+    public class UserRepo : IUserRepo
     {
         private readonly TimesheetDbContext _timesheetDbContext;
 
-        public ClientRepo(TimesheetDbContext timesheetDbContext)
+        public UserRepo(TimesheetDbContext timesheetDbContext)
         {
             _timesheetDbContext = timesheetDbContext;
         }
 
-        public async Task<Client> GetItem(Guid id)
+        public async Task<User> GetItem(Guid id)
         {
-            return await _timesheetDbContext.Clients.FindAsync(id);
+            var result = await _timesheetDbContext.Users.FindAsync(id);
+            return result;
         }
 
-        public async Task<IEnumerable<Client>> GetItems()
+        public async Task<IEnumerable<User>> GetItems()
         {
-            var rawResult = await _timesheetDbContext.Clients.ToListAsync();
+            var rawResult = await _timesheetDbContext.Users.ToListAsync();
             var result = rawResult.Where(x => !x.IsDeleted);
             return result.AsEnumerable();
         }
 
-        public async Task Add(Client item)
+        public async Task Add(User item)
         {
-            await _timesheetDbContext.Clients.AddAsync(item);
+            await _timesheetDbContext.Users.AddAsync(item);
             await _timesheetDbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Client item)
+        public async Task Update(User item)
         {
-            _timesheetDbContext.Clients.Update(item);
+            _timesheetDbContext.Users.Update(item);
             await _timesheetDbContext.SaveChangesAsync();
         }
 
         public async Task Delete(Guid id)
         {
-            var item = await _timesheetDbContext.Clients.FindAsync(id);
+            var item = await _timesheetDbContext.Users.FindAsync(id);
             if (item != null)
             {
                 item.IsDeleted = true;
-                _timesheetDbContext.Clients.Update(item);
+                _timesheetDbContext.Users.Update(item);
                 await _timesheetDbContext.SaveChangesAsync();
             }
         }

@@ -163,6 +163,9 @@ namespace Timesheets.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
+                    
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

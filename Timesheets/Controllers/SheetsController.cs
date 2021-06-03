@@ -20,15 +20,15 @@ namespace Timesheets.Controllers
             _contractManager = contractManager;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] Guid id)
+        [HttpGet("getOne")]
+        public async Task<IActionResult> Get(Guid id)
         {
-            var result = _sheetManager.GetItem(id);
+            var result = await _sheetManager.GetItem(id);
             
             return Ok(result);
         }
         
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<IActionResult> GetItems()
         {
             var result = await _sheetManager.GetItems();
@@ -36,7 +36,7 @@ namespace Timesheets.Controllers
         }
 
         /// <summary> Возвращает запись табеля </summary>
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] SheetRequest sheet)
         {
             var isAllowedToCreate = await _contractManager.CheckContractIsActive(sheet.ContractId);
@@ -51,7 +51,7 @@ namespace Timesheets.Controllers
         }
 
         /// <summary> Обновляет запись табеля </summary>
-        [HttpPut("{id}")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] SheetRequest sheet)
         {
             var isAllowedToCreate = await _contractManager.CheckContractIsActive(sheet.ContractId);
