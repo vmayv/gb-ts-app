@@ -35,12 +35,15 @@ namespace Timesheets
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );*/
             
-            services.AddScoped<ISheetRepo, SheetRepo>();
-            services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IContractManager, ContractManager>();
+            services.AddScoped<IEmployeeManager, EmployeeManager>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<ISheetManager, SheetManager>();
+            
             services.AddScoped<IContractRepo, ContractRepo>();
+            services.AddScoped<ISheetRepo, SheetRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
