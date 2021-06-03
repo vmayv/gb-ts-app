@@ -26,7 +26,7 @@ namespace Timesheets.Data.Implementation
         public async Task<IEnumerable<User>> GetItems()
         {
             var rawResult = await _timesheetDbContext.Users.ToListAsync();
-            var result = rawResult;
+            var result = rawResult.Where(x => !x.IsDeleted);
             return result.AsEnumerable();
         }
 
@@ -42,9 +42,15 @@ namespace Timesheets.Data.Implementation
             await _timesheetDbContext.SaveChangesAsync();
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await _timesheetDbContext.Users.FindAsync(id);
+            if (item != null)
+            {
+                item.IsDeleted = true;
+                _timesheetDbContext.Users.Update(item);
+                await _timesheetDbContext.SaveChangesAsync();
+            }
         }
     }
 }

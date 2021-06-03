@@ -41,9 +41,15 @@ namespace Timesheets.Data.Implementation
             await _timesheetDbContext.SaveChangesAsync();
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await _timesheetDbContext.Clients.FindAsync(id);
+            if (item != null)
+            {
+                item.IsDeleted = true;
+                _timesheetDbContext.Clients.Update(item);
+                await _timesheetDbContext.SaveChangesAsync();
+            }
         }
     }
 }

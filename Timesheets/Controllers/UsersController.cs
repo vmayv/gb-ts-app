@@ -42,7 +42,14 @@ namespace Timesheets.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UserRequest user)
         {
-
+            await _userManager.Update(id, user);
+            return Ok();
+        }
+        
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _userManager.Delete(id);
             return Ok();
         }
     }
